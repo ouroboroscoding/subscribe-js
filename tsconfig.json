@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"lib": ["es2017"],
+		"moduleResolution": "node",
+		"noEmit": false,
+		"strict": true,
+		"target": "esnext"
+	},
+	"include": ["./"],
+	"exclude": []
+}
