@@ -1,6 +1,6 @@
 {
 	"name": "@ouroboros/subscribe",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A class that allows adding easy subscription and notification abilities by extending it",
 	"main": "index.js",
 	"types": "index.d.ts",
@@ -30,6 +30,6 @@
 	},
 	"dependencies": {},
 	"peerDependencies": {
-		"@ouroboros/tools": "^0.3.2"
+		"@ouroboros/tools": "^0.3.3"
 	}
 }

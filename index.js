@@ -68,6 +68,8 @@ export default class Subscribe {
     subscribe(callback) {
         // Add it to the list
         this.subscribeCallbacks.push(callback);
+        // Call the callback with the current data
+        callback(this.subscribeData);
         // Return the current data as well as a function to unsubscribe
         return {
             data: this.subscribeData,
