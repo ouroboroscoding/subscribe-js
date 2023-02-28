@@ -52,6 +52,19 @@ export default class Subscribe {
 	}
 
 	/**
+	 * Clone
+	 *
+	 * Called by @ouroboros/clone to copy the instance. Just returns instead
+	 *
+	 * @name clone
+	 * @access public
+	 * @returns the current instance
+	 */
+	clone() {
+		return this;
+	}
+
+	/**
 	 * Notify
 	 *
 	 * Sends the data to all callbacks
@@ -128,10 +141,3 @@ export default class Subscribe {
 		return false;
 	}
 }
-
-// If @ouroboros/tools is installed
-// tslint:disable-next-line
-const tools = require('@ouroboros/tools');
-if(tools) {
-	tools.cloneAddClass(Subscribe);
-};

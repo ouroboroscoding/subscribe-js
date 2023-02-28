@@ -36,6 +36,16 @@ export default class Subscribe {
      */
     constructor(data?: any);
     /**
+     * Clone
+     *
+     * Called by @ouroboros/clone to copy the instance. Just returns instead
+     *
+     * @name clone
+     * @access public
+     * @returns the current instance
+     */
+    clone(): this;
+    /**
      * Notify
      *
      * Sends the data to all callbacks
