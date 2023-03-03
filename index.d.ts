@@ -8,6 +8,7 @@
  * @copyright Ouroboros Coding Inc.
  * @created 2023-02-24
  */
+import { Clone } from '@ouroboros/clone';
 export type SubscribeCallback = (data: any) => void;
 export type SubscribeReturn = {
     data: any;
@@ -21,7 +22,7 @@ export type SubscribeReturn = {
  * @name Subscribe
  * @access public
  */
-export default class Subscribe {
+export default class Subscribe extends Clone {
     private subscribeCallbacks;
     private subscribeData;
     /**
@@ -36,25 +37,25 @@ export default class Subscribe {
      */
     constructor(data?: any);
     /**
-     * Clone
+     * Get
      *
-     * Called by @ouroboros/clone to copy the instance. Just returns instead
+     * Returns a copy of the data currently stored
      *
-     * @name clone
+     * @name get
      * @access public
-     * @returns the current instance
+     * @returns whatever the instance is currently storing as data
      */
-    clone(): this;
+    get(): any;
     /**
-     * Notify
+     * Set
      *
-     * Sends the data to all callbacks
+     * Stores the new data and sends a copy of it to all callbacks
      *
-     * @name notify
+     * @name set
      * @access public
-     * @param data Optional, the new data to set and then send
+     * @param data The new data to set and then send
      */
-    notify(data: any): void;
+    set(data: any): void;
     /**
      * Subscribe
      *
@@ -68,16 +69,16 @@ export default class Subscribe {
      */
     subscribe(callback: SubscribeCallback): SubscribeReturn;
     /**
-     * Subscribe Unsubscribe
+     * Unsubscribe
      *
-     * Not meant to be called publically, but kept as such in order to support
+     * Not meant to be called publicaly, but kept as such in order to support
      * code using old style subscrube/unsubscribe methods. Searches for the
      * callback and then removes it from the list if found.
      *
-     * @name subscribeUnsubscribe
+     * @name unsubscribe
      * @access public
      * @param callback The function to look for to remove
      * @returns if the callback was removed or not
      */
-    subscribeUnsubscribe(callback: SubscribeCallback): boolean;
+    unsubscribe(callback: SubscribeCallback): boolean;
 }
