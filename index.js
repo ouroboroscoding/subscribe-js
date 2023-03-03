@@ -8,6 +8,7 @@
  * @copyright Ouroboros Coding Inc.
  * @created 2023-02-24
  */
+import clone, { Clone } from '@ouroboros/clone';
 /**
  * Subscribe
  *
@@ -16,7 +17,7 @@
  * @name Subscribe
  * @access public
  */
-export default class Subscribe {
+export default class Subscribe extends Clone {
     // The list of callbacks to notify on changes
     subscribeCallbacks;
     // The current set of data
@@ -32,38 +33,40 @@ export default class Subscribe {
      * @returns a new instance
      */
     constructor(data = null) {
+        // Call the Clone constructor
+        super();
         // Init the list of callbacks
         this.subscribeCallbacks = [];
         // Store the initial data
         this.subscribeData = data;
     }
     /**
-     * Clone
+     * Get
      *
-     * Called by @ouroboros/clone to copy the instance. Just returns instead
+     * Returns a copy of the data currently stored
      *
-     * @name clone
+     * @name get
      * @access public
-     * @returns the current instance
+     * @returns whatever the instance is currently storing as data
      */
-    clone() {
-        return this;
+    get() {
+        return clone(this.subscribeData);
     }
     /**
-     * Notify
+     * Set
      *
-     * Sends the data to all callbacks
+     * Stores the new data and sends a copy of it to all callbacks
      *
-     * @name notify
+     * @name set
      * @access public
-     * @param data Optional, the new data to set and then send
+     * @param data The new data to set and then send
      */
-    notify(data) {
+    set(data) {
         // Store the new data
         this.subscribeData = data;
         // Go through each callback and notify of the data change
         for (const f of this.subscribeCallbacks) {
-            f(this.subscribeData);
+            f(clone(this.subscribeData));
         }
     }
     /**
@@ -80,29 +83,31 @@ export default class Subscribe {
     subscribe(callback) {
         // Add it to the list
         this.subscribeCallbacks.push(callback);
+        // Clone the current data
+        const mData = clone(this.subscribeData);
         // Call the callback with the current data
-        callback(this.subscribeData);
+        callback(mData);
         // Return the current data as well as a function to unsubscribe
         return {
-            data: this.subscribeData,
+            data: mData,
             unsubscribe: () => {
-                return this.subscribeUnsubscribe(callback);
+                return this.unsubscribe(callback);
             }
         };
     }
     /**
-     * Subscribe Unsubscribe
+     * Unsubscribe
      *
-     * Not meant to be called publically, but kept as such in order to support
+     * Not meant to be called publicaly, but kept as such in order to support
      * code using old style subscrube/unsubscribe methods. Searches for the
      * callback and then removes it from the list if found.
      *
-     * @name subscribeUnsubscribe
+     * @name unsubscribe
      * @access public
      * @param callback The function to look for to remove
      * @returns if the callback was removed or not
      */
-    subscribeUnsubscribe(callback) {
+    unsubscribe(callback) {
         // Search for the index of the callback
         const i = this.subscribeCallbacks.indexOf(callback);
         // If it's found
