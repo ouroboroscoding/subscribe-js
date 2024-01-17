@@ -9,6 +9,7 @@
  * @created 2023-02-24
  */
 import clone, { Clone } from '@ouroboros/clone';
+import { compare } from '@ouroboros/tools';
 /**
  * Subscribe
  *
@@ -55,19 +56,27 @@ export default class Subscribe extends Clone {
     /**
      * Set
      *
-     * Stores the new data and sends a copy of it to all callbacks
+     * If the data has changed, stores the new data and sends a copy of it to
+     * all callbacks, then returns true. Else, returns false and does nothing
      *
      * @name set
      * @access public
      * @param data The new data to set and then send
+     * @returns bool
      */
     set(data) {
+        // If the data hasn't changed, do nothing
+        if (compare(data, this.subscribeData)) {
+            return false;
+        }
         // Store the new data
         this.subscribeData = data;
         // Go through each callback and notify of the data change
         for (const f of this.subscribeCallbacks) {
             f(clone(this.subscribeData));
         }
+        // Return OK
+        return true;
     }
     /**
      * Subscribe
