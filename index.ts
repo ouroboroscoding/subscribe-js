@@ -30,10 +30,10 @@ export type SubscribeReturn = {
 export default class Subscribe extends Clone {
 
 	// The list of callbacks to notify on changes
-	private subscribeCallbacks: SubscribeCallback[];
+	protected subscribeCallbacks: SubscribeCallback[];
 
 	// The current set of data
-	private subscribeData: any;
+	protected subscribeData: any;
 
 	/**
 	 * Constructor

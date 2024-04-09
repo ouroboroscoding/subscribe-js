@@ -1,12 +1,13 @@
 {
 	"name": "@ouroboros/subscribe",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"description": "A class that allows adding easy subscription and notification abilities by extending it",
 	"main": "index.js",
 	"types": "index.d.ts",
 	"scripts": {
 		"build": "tslint -p tsconfig.json && tsc",
 		"clean": "rm index.js index.d.ts",
+		"for_local": "npm install; tslint -p tsconfig.json && tsc; rm -Rf node_modules",
 		"test": "echo \"Error: no test specified.\" && exit 1"
 	},
 	"repository": {

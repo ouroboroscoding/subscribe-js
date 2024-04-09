@@ -23,8 +23,8 @@ export type SubscribeReturn = {
  * @access public
  */
 export default class Subscribe extends Clone {
-    private subscribeCallbacks;
-    private subscribeData;
+    protected subscribeCallbacks: SubscribeCallback[];
+    protected subscribeData: any;
     /**
      * Constructor
      *
