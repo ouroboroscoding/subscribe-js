@@ -82,7 +82,9 @@ function MyComponent(props) {
 	}
 }
 ```
+
 In the example, clicking the button a single time would result in
+
 	<div>
 		<button>Say Goodbye</button>
 		<p>Hello, World!</p>
@@ -90,6 +92,7 @@ In the example, clicking the button a single time would result in
 	</div>
 
 And a second click...
+
 	<div>
 		<button>Say Goodbye</button>
 		<p>Hello, World!</p>
