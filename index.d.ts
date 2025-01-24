@@ -25,6 +25,7 @@ export type SubscribeReturn = {
 export default class Subscribe extends Clone {
     protected subscribeCallbacks: SubscribeCallback[];
     protected subscribeData: any;
+    protected cloneFlag: boolean;
     /**
      * Constructor
      *
@@ -33,9 +34,9 @@ export default class Subscribe extends Clone {
      * @name Subscribe
      * @access public
      * @param data The initial data to
-     * @returns a new instance
+     * @param cloneFlag Optional, set to false to always return real data
      */
-    constructor(data?: any);
+    constructor(data?: any, cloneFlag?: boolean);
     /**
      * Get
      *

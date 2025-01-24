@@ -23,6 +23,8 @@ export default class Subscribe extends Clone {
     subscribeCallbacks;
     // The current set of data
     subscribeData;
+    // The clone flag
+    cloneFlag;
     /**
      * Constructor
      *
@@ -31,15 +33,17 @@ export default class Subscribe extends Clone {
      * @name Subscribe
      * @access public
      * @param data The initial data to
-     * @returns a new instance
+     * @param cloneFlag Optional, set to false to always return real data
      */
-    constructor(data = null) {
+    constructor(data = null, cloneFlag = true) {
         // Call the Clone constructor
         super();
         // Init the list of callbacks
         this.subscribeCallbacks = [];
         // Store the initial data
         this.subscribeData = data;
+        // Store the clone flag
+        this.cloneFlag = cloneFlag;
     }
     /**
      * Get
@@ -51,7 +55,10 @@ export default class Subscribe extends Clone {
      * @returns whatever the instance is currently storing as data
      */
     get() {
-        return clone(this.subscribeData);
+        // Return the actual data, or a clone, based on the flag
+        return this.cloneFlag ?
+            clone(this.subscribeData) :
+            this.subscribeData;
     }
     /**
      * Set
@@ -73,7 +80,10 @@ export default class Subscribe extends Clone {
         this.subscribeData = data;
         // Go through each callback and notify of the data change
         for (const f of this.subscribeCallbacks) {
-            f(clone(this.subscribeData));
+            // Send the actual data, or a clone, based on the flag
+            f(this.cloneFlag ?
+                clone(this.subscribeData) :
+                this.subscribeData);
         }
         // Return OK
         return true;
@@ -92,8 +102,10 @@ export default class Subscribe extends Clone {
     subscribe(callback) {
         // Add it to the list
         this.subscribeCallbacks.push(callback);
-        // Clone the current data
-        const mData = clone(this.subscribeData);
+        // Clone the current data if the flag is set
+        const mData = this.cloneFlag ?
+            clone(this.subscribeData) :
+            this.subscribeData;
         // Call the callback with the current data
         callback(mData);
         // Return the current data as well as a function to unsubscribe

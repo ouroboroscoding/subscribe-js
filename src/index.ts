@@ -35,6 +35,9 @@ export default class Subscribe extends Clone {
 	// The current set of data
 	protected subscribeData: any;
 
+	// The clone flag
+	protected cloneFlag: boolean;
+
 	/**
 	 * Constructor
 	 *
@@ -43,9 +46,9 @@ export default class Subscribe extends Clone {
 	 * @name Subscribe
 	 * @access public
 	 * @param data The initial data to
-	 * @returns a new instance
+	 * @param cloneFlag Optional, set to false to always return real data
 	 */
-	constructor(data: any = null) {
+	constructor(data: any = null, cloneFlag: boolean = true) {
 
 		// Call the Clone constructor
 		super();
@@ -55,6 +58,9 @@ export default class Subscribe extends Clone {
 
 		// Store the initial data
 		this.subscribeData = data;
+
+		// Store the clone flag
+		this.cloneFlag = cloneFlag;
 	}
 
 	/**
@@ -67,7 +73,11 @@ export default class Subscribe extends Clone {
 	 * @returns whatever the instance is currently storing as data
 	 */
 	get(): any {
-		return clone(this.subscribeData);
+
+		// Return the actual data, or a clone, based on the flag
+		return this.cloneFlag ?
+				clone(this.subscribeData) :
+				this.subscribeData;
 	}
 
 	/**
@@ -93,7 +103,12 @@ export default class Subscribe extends Clone {
 
 		// Go through each callback and notify of the data change
 		for (const f of this.subscribeCallbacks) {
-			f(clone(this.subscribeData));
+
+			// Send the actual data, or a clone, based on the flag
+			f(this.cloneFlag ?
+				clone(this.subscribeData) :
+				this.subscribeData
+			);
 		}
 
 		// Return OK
@@ -116,8 +131,10 @@ export default class Subscribe extends Clone {
 		// Add it to the list
 		this.subscribeCallbacks.push(callback);
 
-		// Clone the current data
-		const mData = clone(this.subscribeData);
+		// Clone the current data if the flag is set
+		const mData = this.cloneFlag ?
+						clone(this.subscribeData) :
+						this.subscribeData;
 
 		// Call the callback with the current data
 		callback(mData);
